@@ -37,7 +37,7 @@ class Tensor():
         a = self.rotation_angle_2D()
         return [[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]]
     
-    def principal_tensor_2D(self): # TODO: this
+    def principal_tensor_2D(self): # TODO: Implement tensor rotation
         """
             Determines the 2D principal tensor
         """
