@@ -1,4 +1,4 @@
-# Python file / module (TBD) for the Fluid Dynamics part of Mechanics of Materials (MATS23101) at the University of Manchester.
+# Python file / module (TBD) for the Continuum Mechanics part of Mechanics of Materials (MATS23101) at the University of Manchester.
 
 import numpy as np
 
