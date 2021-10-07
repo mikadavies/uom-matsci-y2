@@ -5,10 +5,10 @@ import numpy as np
 alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" #allows 52 rank tensors?
 
 class Tensor():
-    def __init__(self, rank=2, max_index=3):
+    def __init__(self, rank=2, max_index=3, values=[0]*9):
         self.rank = rank
         self.max = max_index
-        self.tensor = None
+        self.tensor = self._create(values)
     
     def _nest(self, layers:int, length:int) -> list:
         """
@@ -38,4 +38,3 @@ class Tensor():
         exec(cmd)
         self.tensor = tensor
         return self.tensor
-
