@@ -29,5 +29,5 @@ class Tensor():
         """
         shell = self._nest(self.rank-1, self.max)
         self.tensor = shell
-        return self.tensor
+        return self.tensor #TODO: currently returns an empty 'Tensor', with the correct rank
         
