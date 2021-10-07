@@ -1,5 +1,5 @@
 # Python file / module (TBD) for the Continuum Mechanics part of Mechanics of Materials (MATS23101) at the University of Manchester.
-# This file is deprecated
+# This file is deprecated, the tensors are effectively fixed as 3x3 second order tensors, the new module aims to address this.
 
 import numpy as np
 
