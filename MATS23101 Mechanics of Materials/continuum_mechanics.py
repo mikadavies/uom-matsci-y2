@@ -31,6 +31,3 @@ class Tensor():
         self.tensor = shell
         return self.tensor
         
-T = Tensor()
-T.create([1])
-print(T.tensor)
