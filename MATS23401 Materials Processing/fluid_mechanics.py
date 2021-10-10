@@ -103,3 +103,8 @@ class Pipe:
         if diameter !=0: self.diameter = diameter
         return self.fluid.speed*self._area()
     
+def bernoulli(speed, density, pressure, elevation_head, gravity=9.80665):
+    """
+    Calculates the total energy given by the bernoulli equation
+    """
+    return density*speed*speed/2+pressure+density*gravity*elevation_head

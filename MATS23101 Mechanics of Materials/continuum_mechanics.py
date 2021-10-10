@@ -46,20 +46,20 @@ class Tensor():
             self.tensor = tensor
         return self.tensor
     
-    def _rotation_angle_2D(self):
+    def _rotation_angle_2D(self): #works only in 2 dimensions
         """
             Calculates the rotation angle of a 2D 2nd order tensor
         """
         return np.arctan((2*self.tensor[0][1])/(self.tensor[0][0]-self.tensor[1][1]))/2
     
-    def _rotation_matrix_2D(self):
+    def _rotation_matrix_2D(self): # works only in 2 dimensions
         """
             Determines the 2D rotation matrix to reach the principal tensor
         """
         a = self._rotation_angle_2D()
         return [[np.cos(a), np.sin(a)], [-np.sin(a), np.cos(a)]]
     
-    def rotate(self, R):
+    def rotate(self, R): # works in all dimensions
         """
             Rotates the tensor through a rotation matrix R
         """
@@ -78,14 +78,14 @@ class Tensor():
             r = []
         return P
         
-    def principal_tensor_2D(self):
+    def principal_tensor_2D(self): # works only in 2 dimensions
         """
             Determines a 2D tensor's principal values
         """
         R = self._rotation_matrix_2D()
         return(self.rotate(R))
     
-    def invariants(self):
+    def invariants(self): # maximum of 3 dimensions for rank 2 tensors
         """
             Calculates the invariants of 1st and 2nd order tensors
         """
@@ -100,7 +100,7 @@ class Tensor():
 
 
 
-def dot(a:Tensor, b:Tensor):
+def dot(a:Tensor, b:Tensor): #works in all dimensions
     """
         Calculates the dot product between two first order tensors of equal length
     """
@@ -113,7 +113,7 @@ def dot(a:Tensor, b:Tensor):
         else: print("ERROR: dot() only accepts vectors with an equal number of components")
     else: print("ERROR: dot() only accepts rank 1 tensors (vectors)")
 
-def double_contraction(A:Tensor, B:Tensor):
+def double_contraction(A:Tensor, B:Tensor): # works in all dimensions
     """
         Calculates the double contraction between two second order tensors of equal length
     """
@@ -125,4 +125,19 @@ def double_contraction(A:Tensor, B:Tensor):
                     c += A[i][j] * B[i][j]
             return c
         else: print("ERROR: double_contraction() only accepts matrices with an equal number of components")
-    else: print("ERROR: dot() only accepts rank 2 tensors (matrices)")
+    else: print("ERROR: double_contraction() only accepts rank 2 tensors (matrices)")
+    
+def matrix_vector_mult(A:Tensor, b:Tensor): # works in all dimensions
+    if A.rank == 2 and B.rank == 1:
+        if A.max == b.max:
+            product = []
+            for i in range(A.max):
+                c = 0
+                for j in range(A.max):
+                    c += A[i][j]*b[j]
+                product.append(c)
+                product = Tensor(1, A.max, product)
+            return product
+        else: print("ERROR: matrix_vector_mult() matrix and vector need to be of equal dimensions")
+    else: print("ERROR: matrix_vector_mult() only accepts a matrix and vector")        
+    
