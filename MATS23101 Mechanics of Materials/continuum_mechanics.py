@@ -128,7 +128,7 @@ def double_contraction(A:Tensor, B:Tensor): # works in all dimensions
     else: print("ERROR: double_contraction() only accepts rank 2 tensors (matrices)")
     
 def matrix_vector_mult(A:Tensor, b:Tensor): # works in all dimensions
-    if A.rank == 2 and B.rank == 1:
+    if A.rank == 2 and b.rank == 1:
         if A.max == b.max:
             product = []
             for i in range(A.max):
