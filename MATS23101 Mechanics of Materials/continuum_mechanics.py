@@ -121,7 +121,7 @@ def double_contraction(A:Tensor, B:Tensor): # works in all dimensions
         if A.max == B.max:
             c = 0
             for i in range(A.max):
-                for j in range(B.max): #this is now a subscript of the list class which uses 0-indexing
+                for j in range(B.max):
                     c += A[i][j] * B[i][j]
             return c
         else: print("ERROR: double_contraction() only accepts matrices with an equal number of components")
