@@ -9,6 +9,8 @@ T = Tensor(2, 3, [11, 12, 13, 21, 22, 23, 31, 32, 33])
 Creates a 2nd order tensor, T, with 3 dimensions (i, j = 1,2,3): <br>
 ![equation](https://latex.codecogs.com/gif.latex?T%3D%5Cbegin%7Bbmatrix%7D11%2612%2613%5C%5C21%2622%2623%5C%5C31%2632%2633%5Cend%7Bbmatrix%7D)
 <br> 
+The ```Tensor``` class was designed to be as similar to index notation as possible, therefore accessing any element in a tensor object can be done using the same through the ```T[i][j]``` format (or ```T[i]``` or ```T[i][j][k]``` etc...). Keep in mind Python uses 0 indexing so for i=1, j=1 in index notation, here it will be ```T[0][0]```.
+
 
 #### Tensor methods
 - ```Tensor.rank``` shows the tensor rank
@@ -28,4 +30,3 @@ Creates a 2nd order tensor, T, with 3 dimensions (i, j = 1,2,3): <br>
 - ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
 - ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
 
-The ```Tensor``` class was designed to be as similar to index notation as possible, therefore accessing any element in a tensor object can be done using the same through the ```T[i][j]``` format (or ```T[i]``` or ```T[i][j][k]``` etc...). Keep in mind Python uses 0 indexing so for i=1, j=1 in index notation, here it will be ```T[0][0]```.
