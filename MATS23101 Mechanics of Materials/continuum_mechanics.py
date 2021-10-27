@@ -183,10 +183,6 @@ class DisplacementField():
         """
             Calculates the rotation tensor for a given displacement field
         """
-        
-        variables = [Symbol(v) for v in self.vars]
-        constants = [Symbol(c) for c in self.consts]
-        
         gradient = self.displacement_gradient()
         omega = []
         for i in range(gradient.max):
@@ -196,6 +192,7 @@ class DisplacementField():
         
         omega = Tensor(2, gradient.max, omega)
         return omega
+    
 
 
 def dot(a:Tensor, b:Tensor): #works in all dimensions
@@ -239,3 +236,21 @@ def matrix_vector_mult(A:Tensor, b:Tensor): # works in all dimensions
         else: print("ERROR: matrix_vector_mult() matrix and vector need to be of equal dimensions")
     else: print("ERROR: matrix_vector_mult() only accepts a matrix and vector")        
     
+def strain_compatibility(e, variables, constants):
+        """
+            Tests if strain is valid through teh strain compatibility equation
+        """
+        variables = [Symbol(v) for v in variables]
+        constants = [Symbol(c) for c in constants]
+        
+        c = 0
+        if e.max != 2:
+            for i in range(e.max):
+                for j in range(e.max):
+                    for k in range(e.max):
+                        for l in range(e.max):
+                            c+= diff(diff(e[i][j], variables[k]), variables[l]) + diff(diff(e[k][l], variables[i]), variables[j]) - diff(diff(e[i][l], variables[j]), variables[k]) - diff(diff(e[j][k], variables[i]), variables[l])
+        else:
+            c = diff(diff(e[0][0], variables[1]), variables[1])+diff(diff(e[1][1], variables[0]), variables[0])-2*diff(diff(e[0][1], variables[0]), variables[1])        
+        if c == 0: print("Compatibility Equation Satisfied!")
+        else: print("Strain Compatibility Equation Not Satisfied: " + str(c))
