@@ -39,6 +39,7 @@ u = DisplacementField(1, 2, ["A*(3*x1-x2)", "A*x1*x2**2"], vars, consts)
 ```
 Creates a displacement field defined as: <br>
 ![equation](https://latex.codecogs.com/svg.image?u_i%20=%20%5Cbegin%7Bbmatrix%7D%20A%5Cleft(3x_1-x_2%5Cright)%20%5C%5C%20Ax_1x_2%5E2%20%5Cend%7Bbmatrix%7D)
+<br>
 where x1, x2 are variables, and A is an undefined constant
 
 #### DisplacementField methods
