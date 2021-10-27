@@ -143,7 +143,6 @@ class DisplacementField():
             self.tensor = tensor
         return self.tensor
         
-    
     def displacement_gradient(self):
         """
             Calculates the displacement gradient for a displacement field
