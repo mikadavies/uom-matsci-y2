@@ -1,4 +1,4 @@
-# Mechanics of Materials Module
+# Continuum Mechanics Module
 
 ## Tensors
 ### New class - Tensor
