@@ -42,7 +42,7 @@ where x1, x2 are variables, and A is an undefined constant
 - ```u.strain_tensor()``` returns the strain tensor for the displacement field
 - ```u.rotation_tensor()``` returns the rotation tensor for the displacement field
 
-#### Functions
+### Functions
 - ```dot(a, b)``` returns the dot product of two vectors a, b
 - ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
 - ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
