@@ -2,6 +2,7 @@
 
 import numpy as np
 import math
+from sympy import Symbol, diff
 
 alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" #allows 52 rank tensors?
 
@@ -98,6 +99,104 @@ class Tensor():
             return (i1, i2, i3)
         else: print("ERROR: Tensor.invariants() currently only handles 1st and 2nd order tensors")
 
+
+class DisplacementField():
+    def __init__(self, rank=2, max_index=3, values=[0]*9, variables=["x1","x2"], constants=["A"]):
+        self.rank = rank
+        self.max = max_index
+        self.tensor = self.create(values)
+        self.vars = variables
+        self.consts = constants
+    
+    def __getitem__(self, item):
+        return self.tensor[item] # delegate to self.__getitem__
+    
+    def _nest(self, layers:int, length:int) -> list:
+        """
+        Nests a certain amount of lists (length) in a certain amount of layers (layers) 
+        """
+        return [[] if layers == 0 else self._nest(layers-1, length) for _ in range(length)]
+    
+    def create(self, values:list) -> list:
+        """
+        Creates a readable and usable tensor representation given a list of values
+        """
+        if self.rank == 1:
+            self.tensor = values
+        else:
+            temp_arr = np.array_split(values, len(values)/self.max) #creates the dimensions
+            temp_arr = [list(x) for x in temp_arr]
+            ##print(temp_arr)
+            shell = self._nest(self.rank, self.max) #empty tensor
+            tensor = shell
+            #to make an self-changing code dependant on the tensor rank
+            #I used strings, as they can be modified at will
+            access_code = "tensor"
+            for _ in range(0, self.rank-1):
+                access_code = access_code + "[" + alphabet[_] + "]" #determines which dimension to access
+            access_command = "for a in range(0, self.max):"
+            for _ in range(1, self.rank-1): 
+                access_command = access_command +"\n" + "    "*_ +"for " + alphabet[_] + " in range(0, self.max):" #iterates through the dimensions regardless of nesting
+            cmd = "it=0\n"+ access_command  + "\n" + "    "*(self.rank-1) + access_code + " = temp_arr[it]\n"+"    "*(self.rank-1)+"it+=1"
+            ##print(cmd)
+            exec(cmd)
+            self.tensor = tensor
+        return self.tensor
+        
+    
+    def displacement_gradient(self):
+        """
+            Calculates the displacement gradient for a displacement field
+        """
+        
+        variables = [Symbol(v) for v in self.vars]
+        constants = [Symbol(c) for c in self.consts]
+                
+        gradient = []
+        
+        for i in range(self.max):
+            for v in variables:
+                partial = diff(self.tensor[i], v)
+                gradient.append(partial)
+        
+        gradient = Tensor(2, len(self.vars), gradient)   
+        return gradient
+    
+    def strain_tensor(self):
+        """
+            Calculates the strain tensor for a given displacement field
+        """
+        
+        variables = [Symbol(v) for v in self.vars]
+        constants = [Symbol(c) for c in self.consts]
+        
+        gradient = self.displacement_gradient()
+        epsilon = []
+        for i in range(gradient.max):
+            for j in range(gradient.max):
+                comp = (1/2)*(gradient[i][j]+gradient[j][i])
+                epsilon.append(comp)
+        
+        epsilon = Tensor(2, gradient.max, epsilon)
+        return epsilon
+    
+    def rotation_tensor(self):
+        """
+            Calculates the rotation tensor for a given displacement field
+        """
+        
+        variables = [Symbol(v) for v in self.vars]
+        constants = [Symbol(c) for c in self.consts]
+        
+        gradient = self.displacement_gradient()
+        omega = []
+        for i in range(gradient.max):
+            for j in range(gradient.max):
+                comp = (1/2)*(gradient[i][j]-gradient[j][i])
+                omega.append(comp)
+        
+        omega = Tensor(2, gradient.max, omega)
+        return omega
 
 
 def dot(a:Tensor, b:Tensor): #works in all dimensions
