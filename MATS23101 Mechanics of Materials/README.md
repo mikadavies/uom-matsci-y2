@@ -46,6 +46,6 @@ where x1, x2 are variables, and A is an undefined constant
 - ```dot(a, b)``` returns the dot product of two vectors a, b
 - ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
 - ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
-- ```strain_compatibility(e)``` checks thif a strain tensor e is valid through the strain compatibility equation
+- ```strain_compatibility(e)``` checks if a strain tensor e is valid through the strain compatibility equation
 
 
