@@ -25,11 +25,6 @@ The ```Tensor``` class was designed to be as similar to index notation as possib
 - ```Tensor.principal_tensor_2D()``` returns a 2D tensor's principal tensor
 - ```Tensor.invariants()``` returns the invariants of the tensor (currently works for 1st order, and 2nd order in 3D)
 
-#### Functions
-- ```dot(a, b)``` returns the dot product of two vectors a, b
-- ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
-- ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
-
 ### New class - DisplacementField
 Takes same inputs as ```Tensor``` and additional variables and constants lists. See below:
 ```
@@ -46,3 +41,11 @@ where x1, x2 are variables, and A is an undefined constant
 - ```u.displacement_gradient()``` returns the displacement gradient tensor for the displacement field
 - ```u.strain_tensor()``` returns the strain tensor for the displacement field
 - ```u.rotation_tensor()``` returns the rotation tensor for the displacement field
+
+#### Functions
+- ```dot(a, b)``` returns the dot product of two vectors a, b
+- ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
+- ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
+- ```strain_compatibility(e)``` checks thif a strain tensor e is valid through the strain compatibility equation
+
+
