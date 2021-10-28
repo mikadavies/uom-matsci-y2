@@ -47,5 +47,18 @@ where x1, x2 are variables, and A is an undefined constant
 - ```double_contraction(A, B)``` returns the double contraction of two 2nd order tensors A, B
 - ```matrix_vector_mult(A, b)``` returns the matrix-vector multiplication of matrix A and vector b
 - ```strain_compatibility(e)``` checks if a strain tensor e is valid through the strain compatibility equation
-
-
+- ```internal_traction_cauchy(s, n)``` uses Cauchy's law to determine the internal traction from a stress s and a plane with normal n
+- ```normal_stress_cauchy(t, n)``` uses Cauchy's law to determine the normal stress based on a traction t and normal n
+- ```shear_stress_cauchy(t, sN, n)``` uses Cauchy's law to determine the shear stress based on a traction t and normal stress sN; in case the normal isn't known it can be set to zero and the normal n can be specified
+- ```hydrostatic_stress(s)``` determines the hydrostatic stress for a stress tensor s
+- ```deviatoric_stress(s)``` determines the deviatoric stress for a stress tensor s
+- ```von_mises_stress(s, S)``` determines the von Mises stress from a stress tensor s, or alternatively from the deviatoric stress S (set to 0 by default); if s is unknown, it can be set to 0 and S can be specified instead
+- ```principal_normal_stresses(s)``` determines the principal normal stresses for a stress tensor s using eigenvalues
+- ```max_normal_stress(s)``` determines the maximum normal stress for a stress tensor s
+- ```max_shear_stress(s)``` determines the maximum shear stress for a stress tensor s
+- ```normal_stress_mohr(s, n)``` uses Mohr's circle to determine the normal stress for a stress tensor s and normal n
+- ```shear_stress_mohr(s, n)``` uses Mohr's circle to determine the shear stress for a stress tensor s and normal n
+- ```balanced_forces(s, vars, consts)``` determines whether or not the forces are balanced for a stress tensor s, whose components are described by equations with variables declared in vars and unknown constants declared in consts
+- ```balanced_moments(s)``` determines whether or not the moments are balanced for a stress tensor s
+- ```stress_equilibrium(s, vars, consts)``` determines whether or not a stress field s is in equilibrium
+- ```work_general_constitutive_model(s, e)``` computes work based on the general constitutive model using stress s and strain e
