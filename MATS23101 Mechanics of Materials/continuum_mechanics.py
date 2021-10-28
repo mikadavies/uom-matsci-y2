@@ -252,5 +252,113 @@ def strain_compatibility(e, variables, constants):
                             c+= diff(diff(e[i][j], variables[k]), variables[l]) + diff(diff(e[k][l], variables[i]), variables[j]) - diff(diff(e[i][l], variables[j]), variables[k]) - diff(diff(e[j][k], variables[i]), variables[l])
         else:
             c = diff(diff(e[0][0], variables[1]), variables[1])+diff(diff(e[1][1], variables[0]), variables[0])-2*diff(diff(e[0][1], variables[0]), variables[1])        
-        if c == 0: print("Compatibility Equation Satisfied!")
-        else: print("Strain Compatibility Equation Not Satisfied: " + str(c))
+        if c == 0: 
+            print("Compatibility Equation Satisfied!")
+            return True
+        else: 
+            print("Strain Compatibility Equation Not Satisfied: " + str(c))
+            return False
+
+def internal_traction_cauchy(s:Tensor, n:Tensor):
+    return matrix_vector_mult(s, n)
+
+def normal_stress_cauchy(t:Tensor, n:Tensor):
+    return dot(t, n)
+
+def shear_stress_cauchy(t:Tensor, sN, n=0):
+    if n == 0:
+        return np.sqrt(dot(t, t)-sN**2)
+    elif sN == 0:
+        return np.sqrt(dot(t, t)-normal_stress_cauchy(t, n)**2)
+
+def hydrostatic_stress(s:Tensor):
+    h = (1/3)*s.invariants()[0]
+    H = Tensor(2, 3, [0]*9)
+    for i in range(H.max):
+        H[i][i] = h
+    return H
+
+def deviatoric_stress(s:Tensor):
+    H = hydrostatic_stress(s)
+    S = Tensor(2, 3, [0]*9)           
+    for i in range(S.max):
+        for j in range(S.max):
+            S[i][j] = s[i][j] - H[i][j]
+    return S
+
+def von_mises_stress(s, S=0):
+    if S == 0:
+        S = deviatoric_stress(s)
+    c = 0
+    for i in range(S.max):
+        for j in range(S.max):
+            c += S[i][j] * S[j][i]     
+    return np.sqrt((3/2)*c)
+
+def principal_normal_stresses(s:Tensor):
+    # principal normal stresses using eigenvectors and eigenvalues 
+    e_val, e_vec = np.linalg.eig(s)
+    p3, p2, p1 = np.sort(e_val)
+    return (p1, p2, p3)
+
+def max_normal_stress(s:Tensor):
+    return principal_normal_stresses(s)[0] 
+
+def max_shear_stress(s:Tensor):
+    p = principal_normal_stresses(s)
+    return (1/2)*(p[0]-p[-1]) 
+
+def normal_stress_mohr(s:Tensor, n:Tensor):
+    p = principal_normal_stresses(s)
+    N = 0
+    for i in range(n.max):
+        N += p[i]+n[i]**2  
+    return N
+
+def shear_stress_mohr(s:Tensor, n:Tensor):
+    p = principal_normal_stresses(s)
+    N = normal_stress_mohr(s,n)
+    S = 0
+    for i in range(n.max):
+        S += p[i]**2+n[i]**2  
+    S -= N**2
+    return np.sqrt(S)
+
+def balanced_forces(s:Tensor, variables=["x1", "x2", "x3"], constants=["A"]):
+    vars = [Symbol(v) for v in variables]
+    consts = [Symbol(c) for c in constants]
+    tot = 0
+    for i in range(s.max):
+        for j in range(s.max):
+              tot += diff(s[j][i], vars[j])
+    if tot == 0:
+        print("Forces are balanced!")
+        return True
+    else:
+        print("Forces are not balanced: " + str(tot))
+        return False
+    
+def balanced_moments(s:Tensor):
+    c = 0
+    for i in range(s.max):
+        for j in range(s.max):
+            if s[i][j] != s[j][i]:
+                c += 1 
+                print("Moments are not balanced")
+                return False
+    if c == 0:
+        print("Moments are balanced!")
+        return True
+    
+def stress_equilibrium(s:Tensor):
+    if balanced_forces(s) == True and balanced_moments(s) == True:
+        print("Stress field in equilibrium!")
+        return True
+    else:
+        print("Stress field not in equilibrium")
+        return False
+
+def work_general_constitutive_model(s:Tensor, e:Tensor):
+    return (1/2)*double_contraction(s, e)
+
+
