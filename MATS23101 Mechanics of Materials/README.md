@@ -15,7 +15,7 @@ The ```Tensor``` class was designed to be as similar to index notation as possib
 #### Tensor methods
 - ```Tensor.rank``` shows the tensor rank
 - ```Tensor.max``` shows the number of dimensions
-- ```Tensor.tensor``` displays the tensor as a list of lists, for T: [[11,22,33],[21,22,23],[31,32,33]]
+- ```Tensor.tensor``` displays the tensor as a list of lists, for T: [[11,12,13],[21,22,23],[31,32,33]]
 - ```Tensor.create(list)```:
   - changes the tensor to use the values in ```list```
   - if the new tensor has different dimensions/rank, these should be changed using ```Tensor.max``` and ```Tensor.rank```
