@@ -350,8 +350,8 @@ def balanced_moments(s:Tensor):
         print("Moments are balanced!")
         return True
     
-def stress_equilibrium(s:Tensor):
-    if balanced_forces(s) == True and balanced_moments(s) == True:
+def stress_equilibrium(s:Tensor, variables=["x1", "x2", "x3"], constants=["A"]):
+    if balanced_forces(s, variables, constants) == True and balanced_moments(s) == True:
         print("Stress field in equilibrium!")
         return True
     else:
